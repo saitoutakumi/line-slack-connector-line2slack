@@ -1,5 +1,4 @@
 import os
-# aaa
 
 import requests
 import slackweb
@@ -11,12 +10,11 @@ from linebot.models import MessageEvent, TextMessage, ImageMessage, StickerMessa
 app = Flask(__name__)
 
 # 認証情報の取得
-CHANNEL_ACCESS_TOKEN = os.environ["1657319637"]
-# チャンネルID
-CHANNEL_SECRET = os.environ["ccf163369f52adbef8b9278e55f8d737"]
-WEB_HOOK_LINKS = os.environ["https://hooks.slack.com/services/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"]
-BOT_OAUTH = os.environ["xoxb-3822322280243-3815817233238-nbSaFPmwGKf3nMycfNQ3OCUz"]
-POST_CHANEL_ID = os.environ["C03Q3CNK96Z"]
+CHANNEL_ACCESS_TOKEN = os.environ["EuEzg4CScj7JAJ8zsWP5TaWDGSAm + BADiBN4YgdLRWJYgPhs9B3C3YkB2BgmBlYqhCw9Lg9i / DLcvqucMA7WPApxSHkmcJJVkSkLf6xQ0j7ztxm6TO2CV"]
+CHANNEL_SECRET = os.environ["33c6ef33b10829a057fee97a42f16da4"]
+WEB_HOOK_LINKS = os.environ["https://hooks.slack.com/services/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"]
+BOT_OAUTH = os.environ["xoxb-3822322280243-3836481127442-qWyctymKFg9XSV9SdcqLXksn"]
+POST_CHANEL_ID = os.environ["3822322280243.3821891154215"]
 
 line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(CHANNEL_SECRET)
