@@ -10,7 +10,7 @@ from linebot.models import MessageEvent, TextMessage, ImageMessage, StickerMessa
 app = Flask(__name__)
 
 # 認証情報の取得
-CHANNEL_ACCESS_TOKEN = os.environ["EuEzg4CScj7JAJ8zsWP5TaWDGSAm + BADiBN4YgdLRWJYgPhs9B3C3YkB2BgmBlYqhCw9Lg9i / DLcvqucMA7WPApxSHkmcJJVkSkLf6xQ0j7ztxm6TO2CV"]
+CHANNEL_ACCESS_TOKEN = os.environ["5ZrgJk3PRiCoVOJhlIxrdsHg7K3wvBmUxTDnwq7VWVgORNFzVQirG1mu6Ki0lFRJCSwwnrgcJQREROqSP28lZDpemz2gxjhxAEPzl5/IHiTj2TqTzcl7JkTq3ZMRo+SUDT0WNkE0nsYQmZKfUReRCAdB04t89/1O/w1cDnyilFU="]
 CHANNEL_SECRET = os.environ["33c6ef33b10829a057fee97a42f16da4"]
 WEB_HOOK_LINKS = os.environ["https://hooks.slack.com/services/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"]
 BOT_OAUTH = os.environ["xoxb-3822322280243-3836481127442-qWyctymKFg9XSV9SdcqLXksn"]
