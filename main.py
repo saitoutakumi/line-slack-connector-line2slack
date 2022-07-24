@@ -1,6 +1,6 @@
 import os
 
-import requests
+# import requests
 import slackweb
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
@@ -156,3 +156,5 @@ def handle_sticker_message(event):
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
+    
