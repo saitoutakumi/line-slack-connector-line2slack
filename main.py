@@ -15,11 +15,11 @@ app = Flask(__name__)
 CHANNEL_ACCESS_TOKEN = os.environ["5ZrgJk3PRiCoVOJhlIxrdsHg7K3wvBmUxTDnwq7VWVgORNFzVQirG1mu6Ki0lFRJCSwwnrgcJQREROqSP28lZDpemz2gxjhxAEPzl5/IHiTj2TqTzcl7JkTq3ZMRo+SUDT0WNkE0nsYQmZKfUReRCAdB04t89/1O/w1cDnyilFU="]
 CHANNEL_SECRET = os.environ["33c6ef33b10829a057fee97a42f16da4"]
 WEB_HOOK_LINKS = os.environ["https://hooks.slack.com/services/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"]
-BOT_OAUTH = os.environ["xoxb-3822322280243-3836481127442-qWyctymKFg9XSV9SdcqLXksn"]
-POST_CHANEL_ID = os.environ["3822322280243.3821891154215"]
+#BOT_OAUTH = os.environ["xoxb-3822322280243-3836481127442-qWyctymKFg9XSV9SdcqLXksn"]
+#POST_CHANEL_ID = os.environ["3822322280243.3821891154215"]
 
-line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
-handler = WebhookHandler(CHANNEL_SECRET)
+line_bot_api = LineBotApi("5ZrgJk3PRiCoVOJhlIxrdsHg7K3wvBmUxTDnwq7VWVgORNFzVQirG1mu6Ki0lFRJCSwwnrgcJQREROqSP28lZDpemz2gxjhxAEPzl5/IHiTj2TqTzcl7JkTq3ZMRo+SUDT0WNkE0nsYQmZKfUReRCAdB04t89/1O/w1cDnyilFU=")
+handler = WebhookHandler("33c6ef33b10829a057fee97a42f16da4")
 
 
 @app.route("/callback", methods=['POST'])
