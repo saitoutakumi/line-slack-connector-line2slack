@@ -1,13 +1,11 @@
-import sys; print(sys.path) 
-
 import os
-
-#import requests
+import json
+import requests
 import slackweb
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
-from linebot.models import MessageEvent, TextMessage, ImageMessage, StickerMessage
+from linebot.models import MessageEvent, TextMessage, ImageMessage, StickerMessage, ImageSendMessage
 
 app = Flask(__name__)
 
