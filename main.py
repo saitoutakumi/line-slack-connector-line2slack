@@ -2,7 +2,7 @@ import os
 
 import sys
 
-sys.path.append('C:\Python310\Lib\site-packages')
+sys.path.append('c:\users\user\appdata\local\packages\pythonsoftwarefoundation.python.3.10_qbz5n2kfra8p0\localcache\local-packages\python310\site-packages')
 
 import requests
 import slackweb
