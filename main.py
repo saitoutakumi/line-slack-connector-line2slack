@@ -8,6 +8,7 @@ from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import MessageEvent, TextMessage, ImageMessage, StickerMessage, ImageSendMessage
 
 app = Flask(__name__)
+#tst
 
 # 認証情報の取得
 #CHANNEL_ACCESS_TOKEN = os.environ["5ZrgJk3PRiCoVOJhlIxrdsHg7K3wvBmUxTDnwq7VWVgORNFzVQirG1mu6Ki0lFRJCSwwnrgcJQREROqSP28lZDpemz2gxjhxAEPzl5/IHiTj2TqTzcl7JkTq3ZMRo+SUDT0WNkE0nsYQmZKfUReRCAdB04t89/1O/w1cDnyilFU="]
