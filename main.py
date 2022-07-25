@@ -1,5 +1,9 @@
 import os
 
+import sys
+
+sys.path.append('C:\Python310\Lib\site-packages')
+
 import requests
 import slackweb
 from flask import Flask, request, abort
