@@ -2,7 +2,7 @@ import sys; print(sys.path)
 
 import os
 
-import requests
+#import requests
 import slackweb
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
@@ -12,9 +12,9 @@ from linebot.models import MessageEvent, TextMessage, ImageMessage, StickerMessa
 app = Flask(__name__)
 
 # 認証情報の取得
-CHANNEL_ACCESS_TOKEN = os.environ["5ZrgJk3PRiCoVOJhlIxrdsHg7K3wvBmUxTDnwq7VWVgORNFzVQirG1mu6Ki0lFRJCSwwnrgcJQREROqSP28lZDpemz2gxjhxAEPzl5/IHiTj2TqTzcl7JkTq3ZMRo+SUDT0WNkE0nsYQmZKfUReRCAdB04t89/1O/w1cDnyilFU="]
-CHANNEL_SECRET = os.environ["33c6ef33b10829a057fee97a42f16da4"]
-WEB_HOOK_LINKS = os.environ["https://hooks.slack.com/services/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"]
+#CHANNEL_ACCESS_TOKEN = os.environ["5ZrgJk3PRiCoVOJhlIxrdsHg7K3wvBmUxTDnwq7VWVgORNFzVQirG1mu6Ki0lFRJCSwwnrgcJQREROqSP28lZDpemz2gxjhxAEPzl5/IHiTj2TqTzcl7JkTq3ZMRo+SUDT0WNkE0nsYQmZKfUReRCAdB04t89/1O/w1cDnyilFU="]
+#CHANNEL_SECRET = os.environ["33c6ef33b10829a057fee97a42f16da4"]
+#WEB_HOOK_LINKS = os.environ["https://hooks.slack.com/services/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"]
 #BOT_OAUTH = os.environ["xoxb-3822322280243-3836481127442-qWyctymKFg9XSV9SdcqLXksn"]
 #POST_CHANEL_ID = os.environ["3822322280243.3821891154215"]
 
@@ -39,7 +39,6 @@ def callback():
 
     return 'OK'
 
-
 def get_event_info(event):
     """
     トーク情報の取得
@@ -47,13 +46,18 @@ def get_event_info(event):
     :return: ユーザID, ユーザ表示名, 送信元トークルームの種別, ルームID
     :rtype: str, str, str, str
     """
-
+   
     # LINEユーザー名の取得
     user_id = event.source.user_id
+
+    #グループIDの取得
+    room_id = event.source.group_id
+    
     try:
-        user_name = line_bot_api.get_profile(user_id).display_name
+        user_name = line_bot_api.get_group_member_profile(room_id, user_id).display_name
     except LineBotApiError as e:
         user_name = "Unknown"
+
 
     # トーク情報の取得
     if event.source.type == "user":
@@ -84,15 +88,16 @@ def handle_text_message(event):
     user_id, user_name, msg_type, room_id = get_event_info(event)
 
     # slack側に投稿するメッセージの加工
-    send_msg = "[bot-line] {user_name}さん\n".format(user_name=user_name) \
+    send_msg = "[LINE]{user_name}さん\n".format(user_name=user_name) \
                + "{msg}\n".format(msg=event.message.text) \
                + "---\n" \
                + "送信元: {msg_type} ( {room_id} )\n".format(msg_type=msg_type, room_id=room_id) \
                + "送信者: {user_name} ( {user_id} )".format(user_name=user_name, user_id=user_id)
 
     # メッセージの送信
-    slack_info.notify(text=send_msg)
+    slack_info.notify(text=send_msg, unfurl_links='true')
 
+FQDN = "https://line4slack.herokuapp.com"
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image_message(event):
@@ -106,26 +111,37 @@ def handle_image_message(event):
     # LINEで送信された画像の取得
     message_id = event.message.id
     message_content = line_bot_api.get_message_content(message_id)
-    img = message_content.content
+
+    #ファイルの拡張子
+    content_type = message_content.content_type
+    img_ext = content_type.split('/')[-1]
+
+               
+    with open("static/" + message_id + "." + img_ext , "wb") as f:
+        f.write(message_content.content)
 
     # slack側に投稿するメッセージの加工
-    send_msg = "[bot-line] {user_name}さんが画像を送信しました．\n".format(user_name=user_name) \
+    send_msg = "[LINE]{user_name}さんが画像を送信しました．\n".format(user_name=user_name) \
                + "---\n" \
                + "送信元: {msg_type} ( {room_id} )\n".format(msg_type=msg_type, room_id=room_id) \
                + "送信者: {user_name} ( {user_id} )".format(user_name=user_name, user_id=user_id)
 
     file_name = "send_image_{message_id}".format(message_id=message_id)
 
-    # 画像送信
-    files = {'file': img}
-    param = {
-        'token': BOT_OAUTH,
-        'channels': POST_CHANEL_ID,
-        'filename': file_name,
-        'initial_comment': send_msg,
-        'title': file_name
+
+    #画像送信‗Json
+    post_json = {
+    "text": send_msg,
+    "attachments": [{
+        "fields": [
+                {
+                    "title": file_name,
+                }],
+            "image_url": FQDN + "/static/" + event.message.id + "." + img_ext
+          }]
     }
-    response = requests.post(url="https://hooks.slack.com/services/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", data = json.dumps(post_json))
+
+    requests.post(WEB_HOOK_LINKS, data = json.dumps(post_json))
 
 
 @handler.add(MessageEvent, message=StickerMessage)
@@ -144,7 +160,7 @@ def handle_sticker_message(event):
     sticker_id = event.message.sticker_id
 
     # slack側に投稿するメッセージの加工
-    send_msg = "[bot-line] {user_name}さんがスタンプを送信しました．\n".format(user_name=user_name) \
+    send_msg = "[LINE]{user_name}さんがスタンプを送信しました．\n".format(user_name=user_name) \
                + "package_id: {package_id}\n".format(package_id=package_id) \
                + "sticker_id: {sticker_id}\n".format(sticker_id=sticker_id) \
                + "---\n" \
@@ -158,5 +174,3 @@ def handle_sticker_message(event):
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-
-    
