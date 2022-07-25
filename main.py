@@ -1,6 +1,6 @@
 import os
 
-import requests
+import request
 import slackweb
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
